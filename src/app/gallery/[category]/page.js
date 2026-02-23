@@ -19,7 +19,7 @@ export default async function CategoryPage({ params }) {
             <div className="mx-auto max-w-[1400px] px-6 py-20">
                 <div className="flex items-end justify-between gap-4">
                     <div>
-                        <p className="text-sm text-zinc-500">Gallery</p>
+                        <p className="text-sm text-zinc-500">Галерија</p>
                         <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-[#242323]">
                             {categoryTitle}
                         </h1>

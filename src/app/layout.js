@@ -1,6 +1,28 @@
 import "./globals.css";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import localFont from "next/font/local";
+
+const sansation = localFont({
+    src: [
+        {
+            path: "./fonts/Regular/Merriweather_36pt-Medium.ttf",
+            weight: "400",
+            style: "normal",
+        },
+        {
+            path: "./fonts/Bold/Merriweather_36pt-Bold.ttf",
+            weight: "700",
+            style: "normal",
+        },
+        {
+            path: "./fonts/Light/Sansation-Light.ttf",
+            weight: "300",
+            style: "normal",
+        },
+    ],
+    display: "swap",
+});
 
 export const metadata = {
     title: "Keramicar",
@@ -18,7 +40,7 @@ const navLinks = [
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
-        <body>
+        <body className={sansation.className}>
         <div className="min-h-dvh flex flex-col">
             <Navbar />
             <main className="flex-1">{children}</main>
@@ -54,7 +76,7 @@ export default function RootLayout({ children }) {
 
                                 {/* Instagram */}
                                 <a
-                                    href="https://instagram.com/yourusername"
+                                    href="https://instagram.com/keramikaplocki"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition"
@@ -72,7 +94,7 @@ export default function RootLayout({ children }) {
 
                                 {/* Facebook */}
                                 <a
-                                    href="https://facebook.com/yourusername"
+                                    href="https://facebook.com/mile.tasev.9"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition"
