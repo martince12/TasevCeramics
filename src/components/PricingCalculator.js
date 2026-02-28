@@ -18,7 +18,6 @@ const CATEGORIES_WITH_TILE_TYPE = new Set([
     "stairs-terrace",
 ]);
 
-// Типови/димензија на плочки (исти за сите 4 категории засега)
 const TILE_TYPES_COMMON = [
     { id: "30-60", label: "30×30 – 60×60", price: 17 },
     { id: "60x120", label: "60×120", price: 19 },
@@ -32,9 +31,11 @@ const TILE_TYPES = {
     "stairs-terrace": TILE_TYPES_COMMON,
 };
 
+
 export default function PricingCalculator() {
     const [category, setCategory] = useState("bathroom");
-    const [tileType, setTileType] = useState(""); // мора да е горе (пред useMemo)
+    const [tileType, setTileType] = useState("");
+    const [workType, setWorkType] = useState("new"); // "new" | "old"
     const [sqm, setSqm] = useState("");
 
     const usesTileType = CATEGORIES_WITH_TILE_TYPE.has(category);
@@ -44,12 +45,17 @@ export default function PricingCalculator() {
         const n = Number(normalized);
         return Number.isFinite(n) ? n : NaN;
     }, [sqm]);
+    const extraPerSqm = 7;
+
+    const extraCost = useMemo(() => {
+        if (workType !== "old") return 0;
+        if (!Number.isFinite(sqmNumber) || sqmNumber <= 0) return 0;
+        return sqmNumber * extraPerSqm;
+    }, [workType, sqmNumber]);
 
     const unitPrice = useMemo(() => {
-        // категории без тип → фиксна цена
         if (!usesTileType) return PRICES[category].price;
 
-        // категории со тип → цена од избраниот тип
         const list = TILE_TYPES[category] || [];
         const picked = list.find((t) => t.id === tileType);
         return picked ? picked.price : null;
@@ -58,9 +64,10 @@ export default function PricingCalculator() {
     const total = useMemo(() => {
         if (!Number.isFinite(sqmNumber) || sqmNumber <= 0) return null;
         if (unitPrice == null) return null;
-        return sqmNumber * unitPrice;
-    }, [sqmNumber, unitPrice]);
 
+        const base = sqmNumber * unitPrice;
+        return base + extraCost;
+    }, [sqmNumber, unitPrice, extraCost]);
     const formattedTotal =
         total === null
             ? "—"
@@ -82,7 +89,7 @@ export default function PricingCalculator() {
                         onChange={(e) => {
                             const nextCat = e.target.value;
                             setCategory(nextCat);
-                            setTileType(""); // ресет на тип при промена на категорија
+                            setTileType("");
                         }}
                         className="mt-2 block w-full h-12 rounded-2xl border px-4 text-sm outline-none focus:ring-2 focus:ring-black/10"
                     >
@@ -119,7 +126,22 @@ export default function PricingCalculator() {
                         )}
                     </select>
                 </div>
+                {/* Тип на работа */}
+                <div className="flex flex-col">
+                    <label className="block text-sm font-medium text-zinc-700">
+                        Тип на работа
+                    </label>
 
+                    <select
+                        value={workType}
+                        onChange={(e) => setWorkType(e.target.value)}
+                        className="mt-2 block w-full h-12 rounded-2xl border px-4 text-sm outline-none focus:ring-2 focus:ring-black/10"
+                    >
+                        <option value="new">Ново</option>
+                        <option value="old">На старо</option>
+                    </select>
+
+                </div>
                 {/* Површина */}
                 <div className="flex flex-col">
                     <label className="block text-sm font-medium text-zinc-700">
