@@ -16,10 +16,10 @@ export const categories = [
 
 
 export const imagesByCategory = {
-    bathroom: rangePaths("bathroom", "b", 21),
-    kitchen: rangePaths("kitchen", "k", 10),
-    "living-room": rangePaths("living-room", "lr", 10),
-    "stairs-and-terrace": rangePaths("stairs-and-terrace", "st", 31),
-    pools: rangePaths("pools", "p", 22),
-    stone: rangePaths("stone", "s", 13),
+    bathroom: rangePaths("bathroom", "b", 35),
+    kitchen: rangePaths("kitchen", "k", 23),
+    "living-room": rangePaths("living-room", "lr", 18),
+    "stairs-and-terrace": rangePaths("stairs-and-terrace", "st", 64),
+    pools: rangePaths("pools", "p", 15),
+    stone: rangePaths("stone", "s", 18),
 };
