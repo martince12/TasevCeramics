@@ -78,7 +78,8 @@ async function component(file, props = {}, globals = {}) {
       }
     },
   };
-  const loaded = await load(file, { react, 'next/link': 'a', 'next/image': 'img', 'next/navigation': { usePathname: () => globals.mockPathname || '/' } }, { window, document, ...globals });
+  const { default: UiIcon } = await load('src/components/UiIcon.js');
+  const loaded = await load(file, { react, '@/components/UiIcon': UiIcon, 'next/link': 'a', 'next/image': 'img', 'next/navigation': { usePathname: () => globals.mockPathname || '/' } }, { window, document, ...globals });
   function all(node = tree) {
     if (node == null || typeof node !== 'object') return [];
     if (Array.isArray(node)) return node.flatMap(all);

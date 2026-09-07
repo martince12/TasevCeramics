@@ -32,6 +32,8 @@ body {
 }
 ::selection { background: #c1d0de; color: var(--foreground); }
 a { text-decoration: none; }
+.ui-icon { display: inline-block; flex-shrink: 0; vertical-align: middle; }
+.footer-links a { gap: 8px; }
 button, input, select, textarea { font: inherit; }
 button, select { cursor: pointer; }
 a, button, input, select, textarea { -webkit-tap-highlight-color: transparent; }

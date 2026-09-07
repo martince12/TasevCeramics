@@ -1,4 +1,7 @@
-﻿"use client";
+"use client";
+
+import UiIcon from "@/components/UiIcon";
+
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
@@ -39,15 +42,15 @@ export default function GalleryLightboxGrid({ images, title, imageAlt = `Изр�
       <div className="gallery-grid">
         {images.map((src, idx) => <button key={src} type="button" onClick={() => setOpenIndex(idx)} aria-label={`Отвори фотографија ${idx + 1}: ${title}`} className="gallery-image" data-reveal="up" data-reveal-order={idx % 3}>
           <Image src={src} alt={`${imageAlt} — фотографија ${idx + 1}`} fill sizes="(max-width: 639px) calc(100vw - 32px), (max-width: 1023px) 50vw, (max-width: 1536px) 33vw, 451px" priority={idx === 0} />
-          <span className="project-open" aria-hidden="true">↗</span>
+          <span className="project-open" aria-hidden="true"><UiIcon /></span>
         </button>)}
       </div>
       {isOpen && <div className="lightbox" role="dialog" aria-modal="true" aria-label={`${title} — преглед на фотографии`} onMouseDown={close}>
         <div ref={panel} className="lightbox-panel" onMouseDown={(event) => event.stopPropagation()}>
-          <div className="lightbox-toolbar"><span>{title}</span><button ref={closeButton} type="button" aria-label="Затвори" onClick={close} className="lightbox-control">×</button></div>
+          <div className="lightbox-toolbar"><span>{title}</span><button ref={closeButton} type="button" aria-label="Затвори" onClick={close} className="lightbox-control"><UiIcon name="close" /></button></div>
           <div className="lightbox-frame"><Image src={images[openIndex]} alt={`${imageAlt} — фотографија ${openIndex + 1}`} fill sizes="(max-width: 1200px) 100vw, 1200px" className="object-contain" priority />
-            <button type="button" aria-label="Претходна" onClick={prev} className="lightbox-control lightbox-prev">‹</button>
-            <button type="button" aria-label="Следна" onClick={next} className="lightbox-control lightbox-next">›</button>
+            <button type="button" aria-label="Претходна" onClick={prev} className="lightbox-control lightbox-prev"><UiIcon name="chevron-left" /></button>
+            <button type="button" aria-label="Следна" onClick={next} className="lightbox-control lightbox-next"><UiIcon name="chevron-right" /></button>
           </div>
           <div className="lightbox-counter" aria-live="polite">{openIndex + 1} / {images.length}</div>
         </div>

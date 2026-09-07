@@ -1,3 +1,4 @@
+import UiIcon from "@/components/UiIcon";
 ﻿import Link from "next/link";
 import { imagesByCategory, categories } from "@/data/galleryData";
 import { notFound } from "next/navigation";
@@ -39,7 +40,7 @@ export default async function CategoryPage({ params }) {
       <div className="section-heading" data-reveal="up"><div><p className="eyebrow">Изработени проекти / Галерија</p><h1>{selected.title}</h1></div><p>{selected.description}<span className="category-count">{images.length} фотографии · Погледнете ја изработката одблиску.</span></p></div>
       <nav className="category-nav" aria-label="Категории на проекти">{categories.map((item) => <Link key={item.slug} href={`/gallery/${item.slug}`} aria-current={item.slug === category ? "page" : undefined}>{item.title}</Link>)}</nav>
       <GalleryLightboxGrid images={images} title={selected.title} imageAlt={selected.imageAlt} />
-      <div className="gallery-end"><p>Имате проект на ум?</p><Link href="/#contact" className="text-link">Разговарајте со нас ↗</Link></div>
+      <div className="gallery-end"><p>Имате проект на ум?</p><Link href="/#contact" className="text-link">Разговарајте со нас <UiIcon /></Link></div>
     </main>
   );
 }

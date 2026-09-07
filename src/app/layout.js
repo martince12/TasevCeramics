@@ -1,3 +1,4 @@
+import UiIcon from "@/components/UiIcon";
 ﻿import "./globals.css";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
@@ -34,7 +35,7 @@ export default function RootLayout({ children }) {
           <div className="container">
             <div className="footer-top"><div><Link href="/#home" className="wordmark">TASEV<span>CERAMICS</span></Link><p>Професионална изработка<br />и поставување керамика.</p></div>
               <div className="footer-links"><a href={`tel:${site.telephone}`}>{site.telephoneDisplay}</a><a href={`mailto:${site.email}`}>{site.email}</a></div>
-              <nav aria-label="Социјални мрежи" className="footer-links"><a href={site.socials.instagram} target="_blank" rel="noopener noreferrer">Instagram ↗</a><a href={site.socials.facebook} target="_blank" rel="noopener noreferrer">Facebook ↗</a></nav>
+              <nav aria-label="Социјални мрежи" className="footer-links"><a href={site.socials.instagram} target="_blank" rel="noopener noreferrer">Instagram <UiIcon /></a><a href={site.socials.facebook} target="_blank" rel="noopener noreferrer">Facebook <UiIcon /></a></nav>
             </div>
             <div className="footer-bottom"><p>© {new Date().getFullYear()} TASEV CERAMICS. Сите права задржани.</p><nav aria-label="Навигација во подножје">{[["home", "Почетна"], ["about", "За нас"], ["gallery", "Галерија"], ["pricing", "Ценовник"], ["contact", "Контакт"]].map(([id, label]) => <Link key={id} href={`/#${id}`}>{label}</Link>)}</nav></div>
           </div>

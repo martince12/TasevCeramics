@@ -1,3 +1,4 @@
+import UiIcon from "@/components/UiIcon";
 import Link from "next/link";
 import Image from "next/image";
 import { categories, imagesByCategory } from "@/data/galleryData";
@@ -28,11 +29,11 @@ export default function HomePage() {
           <h1>Поставување на керамика со <em>врвен квалитет.</em></h1>
           <p className="hero-description">Со прецизност, искуство и внимание кон деталите, создаваме простори што траат со години.</p>
           <div className="hero-actions">
-            <Link href="/#gallery" className="button button-light">Погледни проекти <span aria-hidden="true">↗</span></Link>
-            <Link href="/#contact" className="text-link">Контакт <span aria-hidden="true">↗</span></Link>
+            <Link href="/#gallery" className="button button-light">Погледни проекти <span aria-hidden="true"><UiIcon /></span></Link>
+            <Link href="/#contact" className="text-link">Контакт <span aria-hidden="true"><UiIcon /></span></Link>
           </div>
         </div>
-        <div className="container hero-bottom"><span>Прецизност во секој детал.</span><a href="#about">Запознајте нè <span aria-hidden="true">↓</span></a></div>
+        <div className="container hero-bottom"><span>Прецизност во секој детал.</span><a href="#about">Запознајте нè <span aria-hidden="true"><UiIcon name="arrow-down" /></span></a></div>
       </section>
       <section id="about" className="section-pad">
         <div className="container">
@@ -50,7 +51,7 @@ export default function HomePage() {
         <div className="container">
           <div className="section-heading" data-reveal="up"><div><p className="eyebrow">Нашата работа</p><h2>Галерија</h2></div><p>Изработени проекти.<br />Квалитетот се гледа во деталите.</p></div>
           <div className="project-grid">{categories.map((cat, index) => <Link key={cat.slug} href={`/gallery/${cat.slug}`} className="project-link" data-reveal="image" data-reveal-order={index % 2}>
-            <div className="project-image" style={{ "--cover-ratio": cat.coverRatio }}><Image src={cat.cover} alt={cat.imageAlt} fill sizes="(max-width: 639px) calc(100vw - 32px), (max-width: 767px) 50vw, (max-width: 1023px) 33vw, 307px" /><span className="project-open" aria-hidden="true">↗</span></div>
+            <div className="project-image" style={{ "--cover-ratio": cat.coverRatio }}><Image src={cat.cover} alt={cat.imageAlt} fill sizes="(max-width: 639px) calc(100vw - 32px), (max-width: 767px) 50vw, (max-width: 1023px) 33vw, 307px" /><span className="project-open" aria-hidden="true"><UiIcon /></span></div>
             <div className="project-caption"><div><span className="index">0{index + 1}</span><h3>{cat.title}</h3></div><span>{imagesByCategory[cat.slug].length} фотографии</span></div>
           </Link>)}</div>
         </div>

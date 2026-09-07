@@ -1,3 +1,4 @@
+import UiIcon from "@/components/UiIcon";
 import Link from "next/link";
 
 export default function NotFound() {
@@ -8,7 +9,7 @@ export default function NotFound() {
         <div><h1>Страницата не е пронајдена.</h1></div>
         <p>Проверете ја адресата или погледнете ги изработените проекти во галеријата.</p>
       </div>
-      <Link href="/#gallery" className="text-link">← Назад кон галерија</Link>
+      <Link href="/#gallery" className="text-link"><UiIcon name="arrow-left" /> Назад кон галерија</Link>
     </main>
   );
 }

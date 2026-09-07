@@ -1,5 +1,8 @@
 "use client";
 
+import UiIcon from "@/components/UiIcon";
+
+
 import { useState } from "react";
 
 export default function ContactForm() {
@@ -36,7 +39,7 @@ export default function ContactForm() {
             <div className="field"><label htmlFor="contact-phone">Мобилен телефон</label><input id="contact-phone" name="phone" autoComplete="tel" value={phone} onChange={(e) => setPhone(e.target.value)} type="tel" inputMode="tel" className="form-control" placeholder="+389 7X XXX XXX" /></div>
             <div className="field"><label htmlFor="contact-email">E-mail</label><input id="contact-email" name="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} type="email" className="form-control" placeholder="example@email.com" /></div>
             <div className="field"><label htmlFor="contact-message">Порака</label><textarea id="contact-message" name="message" value={message} onChange={(e) => setMessage(e.target.value)} rows="4" className="form-control" placeholder="Опишете што ви е потребно..." /></div>
-            <button type="submit" disabled={status === "sending"} className="button button-light">{status === "sending" ? "Се праќа..." : "Испрати порака"}<span aria-hidden="true">↗</span></button>
+            <button type="submit" disabled={status === "sending"} className="button button-light">{status === "sending" ? "Се праќа..." : "Испрати порака"}<span aria-hidden="true"><UiIcon /></span></button>
             <div className={status === "error" ? "contact-status error" : "contact-status"} role="status" aria-live="polite">
                 {status === "sent" && <p>Фала! Пораката е испратена.</p>}
                 {status === "error" && <p>Нешто се случи. Обиди се повторно.</p>}

@@ -1,5 +1,8 @@
 "use client";
 
+import UiIcon from "@/components/UiIcon";
+
+
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -115,10 +118,10 @@ export default function Navbar() {
     <header ref={header} className={`site-header ${scrolled || pathname !== "/" || open ? "is-solid" : ""}`}>
       <div className="container nav-inner">
         <Link href="/#home" className="wordmark" aria-label="Tasev Ceramics — Почетна" onClick={() => setOpen(false)}>TASEV<span>CERAMICS</span></Link>
-        <nav className="desktop-nav" aria-label="Главна навигација">{navLinks.map((link) => <Link key={link.href} href={link.href} aria-current={pathname === "/" && link.href === `/#${activeSection}` ? "location" : undefined} className={link.href === "/#contact" ? "nav-contact" : "nav-link"}>{link.label}{link.href === "/#contact" && <span aria-hidden="true">↗</span>}</Link>)}</nav>
-        <button ref={toggle} type="button" aria-label={open ? "Затвори мени" : "Отвори мени"} aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen(!open)} className="menu-toggle"><span aria-hidden="true">{open ? "×" : "☰"}</span></button>
+        <nav className="desktop-nav" aria-label="Главна навигација">{navLinks.map((link) => <Link key={link.href} href={link.href} aria-current={pathname === "/" && link.href === `/#${activeSection}` ? "location" : undefined} className={link.href === "/#contact" ? "nav-contact" : "nav-link"}>{link.label}{link.href === "/#contact" && <span aria-hidden="true"><UiIcon /></span>}</Link>)}</nav>
+        <button ref={toggle} type="button" aria-label={open ? "Затвори мени" : "Отвори мени"} aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen(!open)} className="menu-toggle"><span aria-hidden="true"><UiIcon name={open ? "close" : "menu"} /></span></button>
       </div>
-      {open && <nav id="mobile-navigation" className="mobile-nav container" aria-label="Мобилна навигација">{navLinks.map((link, index) => <Link key={link.href} href={link.href} aria-current={pathname === "/" && link.href === `/#${activeSection}` ? "location" : undefined} onClick={() => setOpen(false)}><span className="index">0{index + 1}</span>{link.label}<span aria-hidden="true">↗</span></Link>)}</nav>}
+      {open && <nav id="mobile-navigation" className="mobile-nav container" aria-label="Мобилна навигација">{navLinks.map((link, index) => <Link key={link.href} href={link.href} aria-current={pathname === "/" && link.href === `/#${activeSection}` ? "location" : undefined} onClick={() => setOpen(false)}><span className="index">0{index + 1}</span>{link.label}<span aria-hidden="true"><UiIcon /></span></Link>)}</nav>}
     </header>
   );
 }
