@@ -31,68 +31,16 @@ export default function ContactForm() {
     }
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            className="space-y-6 rounded-3xl border border-white/10 bg-white/5 backdrop-blur p-8"
-        >
-            <div>
-                <label className="block text-sm font-medium">Име</label>
-                <input
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="mt-2 w-full rounded-2xl bg-white/10 border border-white/20 px-4 py-3 text-white placeholder-white/50 outline-none"
-                    placeholder="Ваше име"
-                />
+        <form onSubmit={handleSubmit} className="contact-form" data-reveal="right" aria-label="Контакт форма" aria-busy={status === "sending"}>
+            <div className="field"><label htmlFor="contact-name">Име</label><input id="contact-name" name="name" autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} className="form-control" placeholder="Ваше име" /></div>
+            <div className="field"><label htmlFor="contact-phone">Мобилен телефон</label><input id="contact-phone" name="phone" autoComplete="tel" value={phone} onChange={(e) => setPhone(e.target.value)} type="tel" inputMode="tel" className="form-control" placeholder="+389 7X XXX XXX" /></div>
+            <div className="field"><label htmlFor="contact-email">E-mail</label><input id="contact-email" name="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} type="email" className="form-control" placeholder="example@email.com" /></div>
+            <div className="field"><label htmlFor="contact-message">Порака</label><textarea id="contact-message" name="message" value={message} onChange={(e) => setMessage(e.target.value)} rows="4" className="form-control" placeholder="Опишете што ви е потребно..." /></div>
+            <button type="submit" disabled={status === "sending"} className="button button-light">{status === "sending" ? "Се праќа..." : "Испрати порака"}<span aria-hidden="true">↗</span></button>
+            <div className={status === "error" ? "contact-status error" : "contact-status"} role="status" aria-live="polite">
+                {status === "sent" && <p>Фала! Пораката е испратена.</p>}
+                {status === "error" && <p>Нешто се случи. Обиди се повторно.</p>}
             </div>
-
-            <div>
-                <label className="block text-sm font-medium">Мобилен телефон</label>
-                <input
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    type="tel"
-                    inputMode="tel"
-                    className="mt-2 w-full rounded-2xl bg-white/10 border border-white/20 px-4 py-3 text-white placeholder-white/50 outline-none"
-                    placeholder="+389 7X XXX XXX"
-                />
-            </div>
-
-            <div>
-                <label className="block text-sm font-medium">E-mail</label>
-                <input
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    type="email"
-                    className="mt-2 w-full rounded-2xl bg-white/10 border border-white/20 px-4 py-3 text-white placeholder-white/50 outline-none"
-                    placeholder="example@email.com"
-                />
-            </div>
-
-            <div>
-                <label className="block text-sm font-medium">Порака</label>
-                <textarea
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    rows="4"
-                    className="mt-2 w-full rounded-2xl bg-white/10 border border-white/20 px-4 py-3 text-white placeholder-white/50 outline-none"
-                    placeholder="Опишете што ви е потребно..."
-                />
-            </div>
-
-            <button
-                type="submit"
-                disabled={status === "sending"}
-                className="w-full rounded-full bg-white text-[#0b2a1f] font-semibold py-3 hover:bg-white/90 transition disabled:opacity-60"
-            >
-                {status === "sending" ? "Се праќа..." : "Испрати порака"}
-            </button>
-
-            {status === "sent" && (
-                <p className="text-sm text-white/80">Фала! Пораката е испратена.</p>
-            )}
-            {status === "error" && (
-                <p className="text-sm text-red-200">Нешто се случи. Обиди се повторно.</p>
-            )}
         </form>
     );
 }

@@ -1,42 +1,45 @@
-import Image from "next/image";
-import Link from "next/link";
+﻿import Link from "next/link";
 import { imagesByCategory, categories } from "@/data/galleryData";
 import { notFound } from "next/navigation";
 import GalleryLightboxGrid from "@/components/GalleryLightboxGrid";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
+
+export function generateStaticParams() {
+  return categories.map(({ slug }) => ({ category: slug }));
+}
+
+export async function generateMetadata({ params }) {
+  const { category } = await params;
+  const selected = categories.find((item) => item.slug === category);
+  if (!selected) notFound();
+  return pageMetadata({
+    title: selected.seoTitle,
+    description: selected.description,
+    path: `/gallery/${selected.slug}`,
+    image: { url: selected.cover, width: selected.coverWidth, height: selected.coverHeight, alt: selected.imageAlt },
+  });
+}
 
 export default async function CategoryPage({ params }) {
-    const { category } = await params;
-
-    const images = imagesByCategory[category];
-    if (!images) notFound();
-
-    const categoryTitle =
-        categories.find((c) => c.slug === category)?.title ||
-        category.replace("-", " ");
-
-    return (
-        <section className="bg-zinc-50 min-h-dvh">
-            <div className="mx-auto max-w-[1400px] px-6 py-20">
-                <div className="flex items-end justify-between gap-4">
-                    <div>
-                        <p className="text-sm text-zinc-500">Галерија</p>
-                        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-[#242323]">
-                            {categoryTitle}
-                        </h1>
-                    </div>
-
-                    <Link
-                        href="/#gallery"
-                        className="inline-flex items-center gap-2 rounded-full bg-[#705849]/90 px-5 py-2.5 text-sm font-large text-white shadow-md hover:bg-[#705849] transition"
-                    >
-                        Back
-                    </Link>
-                </div>
-
-                <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-1">
-                    <GalleryLightboxGrid images={images} title={categoryTitle} />
-                </div>
-            </div>
-        </section>
-    );
+  const { category } = await params;
+  const selected = categories.find((item) => item.slug === category);
+  if (!selected) notFound();
+  const images = imagesByCategory[category];
+  return (
+    <main id="main-content" className="category-page container">
+      <JsonLd data={breadcrumbSchema(selected)} />
+      <nav className="breadcrumbs" aria-label="Патека до страницата">
+        <ol>
+          <li><Link href="/">Почетна</Link></li>
+          <li><span aria-hidden="true">/</span><Link href="/#gallery">Галерија</Link></li>
+          <li><span aria-hidden="true">/</span><span aria-current="page">{selected.title}</span></li>
+        </ol>
+      </nav>
+      <div className="section-heading" data-reveal="up"><div><p className="eyebrow">Изработени проекти / Галерија</p><h1>{selected.title}</h1></div><p>{selected.description}<span className="category-count">{images.length} фотографии · Погледнете ја изработката одблиску.</span></p></div>
+      <nav className="category-nav" aria-label="Категории на проекти">{categories.map((item) => <Link key={item.slug} href={`/gallery/${item.slug}`} aria-current={item.slug === category ? "page" : undefined}>{item.title}</Link>)}</nav>
+      <GalleryLightboxGrid images={images} title={selected.title} imageAlt={selected.imageAlt} />
+      <div className="gallery-end"><p>Имате проект на ум?</p><Link href="/#contact" className="text-link">Разговарајте со нас ↗</Link></div>
+    </main>
+  );
 }

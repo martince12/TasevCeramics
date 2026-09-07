@@ -77,125 +77,44 @@ export default function PricingCalculator() {
             }).format(total);
 
     return (
-        <div className="rounded-3xl border border-[#705849] bg-white p-6 md:p-8 shadow-sm">
-            <div className="grid gap-6 md:grid-cols-3 md:items-start">
-                {/* Категорија */}
-                <div className="flex flex-col">
-                    <label className="block text-sm font-medium text-zinc-700">
-                        Категорија
-                    </label>
-                    <select
-                        value={category}
-                        onChange={(e) => {
-                            const nextCat = e.target.value;
-                            setCategory(nextCat);
-                            setTileType("");
-                        }}
-                        className="mt-2 block w-full h-12 rounded-2xl border px-4 text-sm outline-none focus:ring-2 focus:ring-black/10"
-                    >
-                        {Object.entries(PRICES).map(([key, v]) => (
-                            <option key={key} value={key}>
-                                {v.label}
-                            </option>
-                        ))}
+        <div className="calculator">
+            <div className="calculator-grid">
+                <div className="field">
+                    <label htmlFor="quote-category">Категорија</label>
+                    <select id="quote-category" value={category} onChange={(e) => { setCategory(e.target.value); setTileType(""); }} className="form-control">
+                        {Object.entries(PRICES).map(([key, value]) => <option key={key} value={key}>{value.label}</option>)}
                     </select>
                 </div>
-
-                {/* Вид на плочки */}
-                <div className="flex flex-col">
-                    <label className="block text-sm font-medium text-zinc-700">
-                        Вид на плочки
-                    </label>
-                    <select
-                        value={tileType}
-                        onChange={(e) => setTileType(e.target.value)}
-                        disabled={!usesTileType}
-                        className="mt-2 block w-full h-12 rounded-2xl border px-4 text-sm outline-none focus:ring-2 focus:ring-black/10 disabled:opacity-60"
-                    >
-                        {!usesTileType ? (
-                            <option value="">Не е потребно</option>
-                        ) : (
-                            <>
-                                <option value="">Избери димензија…</option>
-                                {(TILE_TYPES[category] || []).map((t) => (
-                                    <option key={t.id} value={t.id}>
-                                        {t.label}
-                                    </option>
-                                ))}
-                            </>
-                        )}
+                <div className="field">
+                    <label htmlFor="quote-tile">Вид на плочки</label>
+                    <select id="quote-tile" value={tileType} onChange={(e) => setTileType(e.target.value)} disabled={!usesTileType} className="form-control">
+                        {!usesTileType ? <option value="">Не е потребно</option> : <>
+                            <option value="">Избери димензија…</option>
+                            {(TILE_TYPES[category] || []).map((tile) => <option key={tile.id} value={tile.id}>{tile.label}</option>)}
+                        </>}
                     </select>
                 </div>
-                {/* Тип на работа */}
-                <div className="flex flex-col">
-                    <label className="block text-sm font-medium text-zinc-700">
-                        Тип на работа
-                    </label>
-
-                    <select
-                        value={workType}
-                        onChange={(e) => setWorkType(e.target.value)}
-                        className="mt-2 block w-full h-12 rounded-2xl border px-4 text-sm outline-none focus:ring-2 focus:ring-black/10"
-                    >
-                        <option value="new">Ново</option>
-                        <option value="old">На старо</option>
+                <div className="field">
+                    <label htmlFor="quote-work">Тип на работа</label>
+                    <select id="quote-work" value={workType} onChange={(e) => setWorkType(e.target.value)} className="form-control">
+                        <option value="new">Ново</option><option value="old">На старо</option>
                     </select>
-
                 </div>
-                {/* Површина */}
-                <div className="flex flex-col">
-                    <label className="block text-sm font-medium text-zinc-700">
-                        Површина (m²)
-                    </label>
-                    <input
-                        value={sqm}
-                        onChange={(e) => setSqm(e.target.value)}
-                        inputMode="decimal"
-                        placeholder="Пример: 12.5"
-                        className="mt-2 block w-full h-12 rounded-2xl border px-4 text-sm outline-none focus:ring-2 focus:ring-black/10"
-                    />
-                    <p className="mt-2 text-xs text-zinc-500">
-                        * Ова е ориентативна пресметка. Финалната цена се утврдува по увид на
-                        лице место.
-                    </p>
+                <div className="field">
+                    <label htmlFor="quote-area">Површина (m²)</label>
+                    <input id="quote-area" value={sqm} onChange={(e) => setSqm(e.target.value)} inputMode="decimal" placeholder="Пример: 12.5" className="form-control" aria-describedby={sqm.length > 0 && (!Number.isFinite(sqmNumber) || sqmNumber <= 0) ? "quote-error quote-note" : "quote-note"} aria-invalid={sqm.length > 0 && (!Number.isFinite(sqmNumber) || sqmNumber <= 0)} />
+                    <p id="quote-note" className="field-note">* Ова е ориентативна пресметка. Финалната цена се утврдува по увид на лице место.</p>
                 </div>
-
-                {/* Процена */}
-                <div className="md:col-span-3">
-                    <div className="rounded-2xl border bg-zinc-50 p-5">
-                        <div className="text-xs uppercase tracking-widest text-zinc-500">
-                            Процена
-                        </div>
-
-                        <div className="mt-2 text-3xl font-bold tracking-tight">
-                            {formattedTotal}€
-                        </div>
-
-                        <div className="mt-2 text-sm text-zinc-600">
-                            {usesTileType ? (
-                                unitPrice == null ? (
-                                    <span>Избери „Вид на плочки“ за да се пресмета цена.</span>
-                                ) : (
-                                    <span>
-                    Цена: <b>{unitPrice}€</b>/m²
-                  </span>
-                                )
-                            ) : (
-                                <span>
-                  {PRICES[category].label}: <b>{PRICES[category].price}€</b>/m²
-                </span>
-                            )}
-                        </div>
+                <div className="estimate" aria-live="polite" aria-atomic="true">
+                    <p className="eyebrow">Процена</p>
+                    <output className="estimate-total" htmlFor="quote-category quote-tile quote-work quote-area">{formattedTotal}€</output>
+                    <div className="estimate-detail">
+                        {usesTileType ? (unitPrice == null ? <span>Избери „Вид на плочки“ за да се пресмета цена.</span> : <span>Цена: <b>{unitPrice}€</b>/m²</span>) : <span>{PRICES[category].label}: <b>{PRICES[category].price}€</b>/m²</span>}
+                        {workType === "old" && <p>Дополнително на старо: 7€/m²</p>}
                     </div>
                 </div>
             </div>
-
-            {/* Валидација */}
-            {sqm.length > 0 && (!Number.isFinite(sqmNumber) || sqmNumber <= 0) && (
-                <div className="mt-4 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
-                    Внеси валиден број на m² (поголем од 0).
-                </div>
-            )}
+            {sqm.length > 0 && (!Number.isFinite(sqmNumber) || sqmNumber <= 0) && <p id="quote-error" role="alert" className="validation-error">Внеси валиден број на m² (поголем од 0).</p>}
         </div>
     );
 }

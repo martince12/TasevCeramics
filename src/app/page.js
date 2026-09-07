@@ -1,243 +1,66 @@
 import Link from "next/link";
 import Image from "next/image";
-import { categories } from "@/data/galleryData";
+import { categories, imagesByCategory } from "@/data/galleryData";
 import PricingCalculator from "@/components/PricingCalculator";
 import ContactForm from "@/components/ContactForm";
+import JsonLd from "@/components/JsonLd";
+import { site } from "@/lib/site";
+import { businessSchema, pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata({ title: site.title, description: site.description, path: "/" });
+
+const principles = [
+  ["Прецизна изработка", "Рамно поставување, чисти фуги и прецизно сечење."],
+  ["Секогаш на време", "Работата е завршена во договорениот рок."],
+  ["Стручна консултација", "Помош при избор на плочки и материјали."],
+  ["Чиста работна средина", "Работам уредно и ја оставам просторијата чиста."],
+];
 
 export default function HomePage() {
   return (
-      <main>
-        {/* HERO */}
-        <section
-            id="home"
-            className="section scroll-mt-24 bg-[url('/background-hero.jpg')]  bg-contain bg-center text-white min-h-dvh flex items-center"
-        >
-          <div className="mx-auto max-w-7xl px-4 py-10 md:py-0 w-full">
-            <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur p-6 md:p-10">
-              <div className="grid gap-8 md:grid-cols-2 md:items-center">
-                {/* LEFT: text */}
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-white/70">
-                    Ceramic / Tiling
-                  </p>
-
-                  <h1 className="mt-4 text-3xl md:text-5xl font-bold tracking-tight text-[#242323]">
-                    Поставување на керамика со врвен квалитет.
-                  </h1>
-
-                  <p className="mt-4 text-sm md:text-base text-[#242323]/80 max-w-xl">
-                    Со прецизност, искуство и внимание кон деталите, создаваме простори што траат со години.
-                  </p>
-
-                  <div className="mt-6 flex flex-col sm:flex-row gap-3">
-                    <Link
-                        href="/#gallery"
-                        className="rounded-full bg-white text-black px-5 py-3 text-sm text-center hover:opacity-90"
-                    >
-                      Погледни проекти
-                    </Link>
-
-                    <Link
-                        href="/#contact"
-                        className="rounded-full border border-black/35 px-5 py-3 text-sm text-center text-[#242323] hover:bg-white/10 transition"
-                    >
-                      Контакт
-                    </Link>
-                  </div>
-
-                  {/* small trust row */}
-                  <div className="mt-8 flex flex-wrap gap-3 text-xs text-black/70">
-                  <span className="rounded-full border border-black/35 bg-black/5 px-3 py-1">
-                    Професионален пристап
-                  </span>
-                    <span className="rounded-full border border-black/35 bg-black/5 px-3 py-1">
-                    Секогаш на време
-                  </span>
-                    <span className="rounded-full border border-black/35 bg-black/5 px-3 py-1">
-                    Квалитетна изработка
-                  </span>
-                  </div>
-                </div>
-
-                {/* RIGHT: image */}
-                <div className="relative">
-                  <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur p-2">
-                    <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                      <Image
-                          src="/hero-photo2.webp"
-                          alt="Ceramic work preview"
-                          fill
-                          className="object-cover"
-                          priority
-                      />
-                    </div>
-                  </div>
-
-                  {/* subtle highlight ring */}
-                  <div className="pointer-events-none absolute -inset-2 rounded-[28px] border border-white/10"/>
-                </div>
-              </div>
+    <main id="main-content">
+      <JsonLd data={businessSchema()} />
+      <section id="home" className="hero">
+        <Image src="/hero-photo2.webp" alt="Прецизно поставување на керамички плочки" fill priority sizes="100vw" className="hero-image" />
+        <div className="hero-shade" />
+        <div className="container hero-content">
+          <p className="eyebrow">Tasev Ceramics · Керамика и камен</p>
+          <h1>Поставување на керамика со <em>врвен квалитет.</em></h1>
+          <p className="hero-description">Со прецизност, искуство и внимание кон деталите, создаваме простори што траат со години.</p>
+          <div className="hero-actions">
+            <Link href="/#gallery" className="button button-light">Погледни проекти <span aria-hidden="true">↗</span></Link>
+            <Link href="/#contact" className="text-link">Контакт <span aria-hidden="true">↗</span></Link>
+          </div>
+        </div>
+        <div className="container hero-bottom"><span>Прецизност во секој детал.</span><a href="#about">Запознајте нè <span aria-hidden="true">↓</span></a></div>
+      </section>
+      <section id="about" className="section-pad">
+        <div className="container">
+          <div className="about-grid">
+            <div data-reveal="up"><p className="eyebrow">За нас</p><h2>Искуство, прецизност и квалитет во секој проект.</h2></div>
+            <div className="about-copy" data-reveal="stat"><div className="experience"><span>20<span className="plus">+</span></span><p>години искуство.<br />Работа што трае.</p></div>
+              <p>Со над 20 години искуство, Tasev Ceramics нуди професионално поставување керамички плочки, гранит, мермер, травертин и украсен камен за купатила, кујни, дневни соби, тераси, скали и базени.</p>
+              <p>Работиме со современи алати, внимаваме на секој детал и гарантираме навремена и професионална реализација.</p>
             </div>
           </div>
-        </section>
-
-        {/* ABOUT */}
-        <section
-            id="about"
-            className="section scroll-mt-24 bg-zinc-50 text-zinc-900"
-        >
-          <div className="mx-auto max-w-[1400px] px-6 py-20">
-            <div className="grid gap-12 md:grid-cols-2 md:items-start">
-
-              {/* LEFT SIDE */}
-              <div>
-                <p className="text-xl uppercase tracking-widest text-[#705849]/80">
-                  За нас
-                </p>
-
-                <h2 className="mt-4 text-3xl md:text-4xl font-bold tracking-tight text-[#705849]">
-                  Искуство, прецизност и квалитет во секој проект.
-                </h2>
-
-                <p className="mt-6 text-base text-zinc-600 max-w-xl">
-                  Со над 20 години искуство, нудиме прецизна и квалитетна изработка на плочки, гранит, мермер, травертин и украсен камен.
-                </p>
-
-
-                <p className="mt-4 text-base text-zinc-600 max-w-xl">
-                  Работиме со современи алати, внимаваме на секој детал и гарантираме навремена и професионална реализација.
-                </p>
-
-              </div>
-
-              {/* RIGHT SIDE CARDS */}
-              <div className="grid gap-6 sm:grid-cols-2">
-                {[
-                  {
-                    title: "Прецизна изработка",
-                    desc: "Рамно поставување, чисти фуги и прецизно сечење."
-                  },
-                  {
-                    title: "Секогаш на време",
-                    desc: "Работата е завршена во договорениот рок."
-                  },
-                  {
-                    title: "Стручна консултација",
-                    desc: "Помош при избор на плочки и материјали."
-                  },
-                  {
-                    title: "Чиста работна средина",
-                    desc: "Работам уредно и ја оставам просторијата чиста."
-                  }
-                ].map((card) => (
-                    <div
-                        key={card.title}
-                        className="rounded-2xl border border-white/10 bg-[#a18777]/90 backdrop-blur text-white p-6 shadow-sm hover:bg-[#705849] transition"
-                    >
-                      <h3 className="font-semibold text-lg">{card.title}</h3>
-                      <p className="mt-2 text-sm text-white/80">
-                        {card.desc}
-                      </p>
-                    </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* GALLERY (PREVIEW) */}
-        <section id="gallery" className="section scroll-mt-24 bg-[#705849] text-zinc-900">
-          <div className="mx-auto max-w-[1400px] px-6 py-20">
-            <div className="mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white">
-                Галерија
-              </h2>
-              <p className="mt-4 text-lg text-white max-w-2xl">
-                Изработени проекти.
-              </p>
-            </div>
-
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {categories.map((cat) => (
-                  <Link
-                      key={cat.slug}
-                      href={`/gallery/${cat.slug}`}
-                      className="group relative aspect-[4/3] overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur hover:shadow-[0_0_40px_rgba(255,255,255,0.15)] transition"
-                  >
-                    <div
-                        className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur">
-                      <Image
-                          src={cat.cover}
-                          alt={cat.title}
-                          fill
-                          className="object-cover transition duration-500 group-hover:scale-110"
-                      />
-                    </div>
-
-                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition"/>
-
-                    <div className="absolute bottom-0 p-6">
-                      <h3 className="text-xl font-semibold text-white">{cat.title}</h3>
-                    </div>
-                  </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* PRICING */}
-        <section id="pricing" className="section scroll-mt-24">
-          <div className="mx-auto max-w-7xl px-4 py-16">
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-[#705849]">Ценовник</h2>
-            <p className="mt-4 text-sm md:text-base opacity-80 max-w-2xl">
-              Цената е ориентативна и може да варира во зависност од условите и сложеноста на проектот.
-            </p>
-
-            <div className="mt-8 rounded-4xl border-[#705849] bg-[#705849] p-6">
-              <PricingCalculator/>
-            </div>
-          </div>
-        </section>
-
-        {/* CONTACT */}
-        <section id="contact" className="section scroll-mt-24 bg-[#705849] text-white">
-          <div className="mx-auto max-w-[1400px] px-6 py-20">
-
-            {/* Heading */}
-            <div className="max-w-2xl">
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-                Ако сакате професионална изработка на вашиот проект, контактирајте не.
-              </h2>
-              <p className="mt-4 text-lg text-white/70">
-                Секој проект започнува со консултација и увид на лице место, со цел да добиете точна и транспарентна понуда.
-              </p>
-            </div>
-
-            {/* Content Grid */}
-            <div className="mt-16 grid gap-12 md:grid-cols-2">
-
-              {/* Left side */}
-              <div>
-
-                <h3 className="text-xl font-semibold">
-                  Директно јави се:
-                </h3>
-
-                <p className="mt-4 text-2xl font-bold">
-                  +389 71 355 519
-                </p>
-
-                <p className="mt-4 text-white/70">
-                  Достапен сум за консултации, договор и преглед на простор од Понеделник до Петок после 17 часот.
-                </p>
-              </div>
-
-              {/* Right side - Form */}
-              <ContactForm/>
-
-            </div>
-          </div>
-        </section>
-      </main>
+          <div className="principles">{principles.map(([title, desc], index) => <div key={title} data-reveal="up" data-reveal-order={index % 3}><span className="index">0{index + 1}</span><h3>{title}</h3><p>{desc}</p></div>)}</div>
+        </div>
+      </section>
+      <section id="gallery" className="gallery-section section-pad">
+        <div className="container">
+          <div className="section-heading" data-reveal="up"><div><p className="eyebrow">Нашата работа</p><h2>Галерија</h2></div><p>Изработени проекти.<br />Квалитетот се гледа во деталите.</p></div>
+          <div className="project-grid">{categories.map((cat, index) => <Link key={cat.slug} href={`/gallery/${cat.slug}`} className="project-link" data-reveal="image" data-reveal-order={index % 2}>
+            <div className="project-image" style={{ "--cover-ratio": cat.coverRatio }}><Image src={cat.cover} alt={cat.imageAlt} fill sizes="(max-width: 639px) calc(100vw - 32px), (max-width: 767px) 50vw, (max-width: 1023px) 33vw, 307px" /><span className="project-open" aria-hidden="true">↗</span></div>
+            <div className="project-caption"><div><span className="index">0{index + 1}</span><h3>{cat.title}</h3></div><span>{imagesByCategory[cat.slug].length} фотографии</span></div>
+          </Link>)}</div>
+        </div>
+      </section>
+      <section id="pricing" className="section-pad pricing-section">
+        <div className="container"><div className="section-heading" data-reveal="up"><div><p className="eyebrow">Планирајте го проектот</p><h2>Ценовник</h2></div><p>Цената е ориентативна и може да варира во зависност од условите и сложеноста на проектот.</p></div><PricingCalculator /></div>
+      </section>
+      <section id="contact" className="contact-section section-pad">
+        <div className="container contact-grid"><div className="contact-copy" data-reveal="left"><p className="eyebrow">Контакт</p><h2>Ако сакате професионална изработка на вашиот проект, контактирајте не.</h2><p>Секој проект започнува со консултација и увид на лице место, со цел да добиете точна и транспарентна понуда.</p><div className="contact-direct"><p className="eyebrow">Директно јави се</p><a className="phone-link" href={`tel:${site.telephone}`}>{site.telephoneDisplay}</a><p>Достапен сум за консултации, договор и преглед на простор од Понеделник до Петок после 17 часот.</p></div></div><ContactForm /></div>
+      </section>
+    </main>
   );
 }
