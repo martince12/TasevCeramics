@@ -35,7 +35,12 @@ export default function LocalServicePage() {
           <nav className="breadcrumbs" aria-label="Патека до страницата">
             <ol><li><Link href="/">Почетна</Link></li><li><span aria-hidden="true">/</span><span aria-current="page">Керамичар во Кавадарци</span></li></ol>
           </nav>
-          <div className="section-heading" data-reveal="up"><div><p className="eyebrow">Услуги</p><h2 id="services-title">Лепење и поставување плочки во Кавадарци</h2>
+          <div className="section-heading" data-reveal="up">
+            <div>
+              <p className="eyebrow">Услуги</p>
+              <h2 id="services-title">Лепење и поставување плочки во Кавадарци</h2>
+            </div>
+          </div>
           <div className="service-copy" data-reveal="up"><p>Tasev Ceramics е базиран во Кавадарци и нуди лепење и поставување плочки за купатила, кујни, тераси, скали, базени и други внатрешни и надворешни површини.</p></div>
           <div className={styles.services}>{serviceOverview.map(({ title, description, category }, index) => (
             <article key={category} className={styles.service} data-reveal="up" data-reveal-order={index % 3}>

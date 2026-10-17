@@ -56,6 +56,7 @@ export function businessSchema() {
         "@type": "HomeAndConstructionBusiness",
         "@id": absoluteUrl("/#business"),
         name: site.name,
+        alternateName: ["Majstor Mile", "Мајстор Миле", "majstor mile", "мајстор миле"],
         url: absoluteUrl(),
         description: site.description,
         telephone: site.telephone,
