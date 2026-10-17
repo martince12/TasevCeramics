@@ -74,7 +74,21 @@ test("every public page: unique metadata, canonical, social cards, language, hea
       assert.equal(business.telephone, "+38971355519");
       assert.equal(business.email, "miletasev1@gmail.com");
       assert.equal(business.url, canonicalOrigin + "/");
-      for (const field of ["address", "geo", "aggregateRating", "review", "priceRange", "openingHours"]) assert.equal(business[field], undefined);
+      assert.deepEqual(business.address, { "@type": "PostalAddress", addressLocality: "Kavadarci", addressCountry: "MK" });
+      assert.deepEqual(business.areaServed, [
+        { "@type": "City", name: "Kavadarci" },
+        { "@type": "Country", name: "North Macedonia" },
+      ]);
+      // Verify visible server HTML, excluding hydration scripts and JSON-LD.
+      const visibleHtml = html.split("<body")[1].replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "");
+      assert.match(visibleHtml, /Tasev Ceramics е базиран во Кавадарци/);
+      assert.match(visibleHtml, /за проекти во Кавадарци и низ Македонија/);
+      assert.match(visibleHtml, /Кавадарци, Северна Македонија/);
+      assert.match(visibleHtml, /Проекти низ Македонија/);
+      assert.equal(title, "Tasev Ceramics | Поставување керамика и плочки во Кавадарци");
+      assert.match(description, /базиран во Кавадарци/);
+      assert.match(description, /низ Македонија/);
+      for (const field of ["geo", "aggregateRating", "review", "priceRange", "openingHours", "branchOf", "department"]) assert.equal(business[field], undefined);
       assert.ok(graph.some((item) => item["@type"] === "WebSite" && item.inLanguage === "mk"));
       assert.doesNotMatch(JSON.stringify(graph), /SearchAction/);
       for (const categoryRoute of routes.slice(1)) assert.ok(tags(html, "a").some((item) => item.href === categoryRoute));

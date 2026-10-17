@@ -36,6 +36,15 @@ export function businessSchema() {
         image: absoluteUrl(site.image.url),
         logo: absoluteUrl("/icon.svg"),
         sameAs: Object.values(site.socials),
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: site.location.locality,
+          addressCountry: site.location.countryCode,
+        },
+        areaServed: [
+          { "@type": "City", name: site.location.locality },
+          { "@type": "Country", name: site.location.country },
+        ],
       },
       {
         "@type": "WebSite",

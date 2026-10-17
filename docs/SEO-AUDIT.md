@@ -2,7 +2,19 @@
 
 Audit date: 7 September 2026. Preferred production origin: `https://tasev-ceramics.com`.
 
-## Findings before implementation
+## Local SEO refinement — 17 October 2026
+
+The owner confirmed Kavadarci, North Macedonia as the base and availability for projects across North Macedonia. The current About paragraph says: “Tasev Ceramics е базиран во Кавадарци и нуди професионално поставување керамички плочки, гранитогрес, декоративен и природен камен за проекти во Кавадарци и низ Македонија.” Existing experience, materials and project categories remain in the following sentence.
+
+The shared footer displays “Кавадарци, Северна Македонија” and “Проекти низ Македонија”. Both the About copy and footer are rendered on the server, without needing JavaScript.
+
+Homepage description: “Професионално поставување керамички плочки, гранитогрес и камен од Tasev Ceramics, базиран во Кавадарци. Изведба на проекти во Кавадарци и низ Македонија.” The same title and description feed Open Graph and Twitter metadata.
+
+The business graph now has a partial PostalAddress with addressLocality `Kavadarci` and addressCountry `MK`, and areaServed entries for City `Kavadarci` and Country `North Macedonia`. No street, postcode, coordinates or branches are asserted. Phone, email and social profiles are preserved. Only the bathroom category description adds Kavadarci; all category titles stay service-focused. No keyword lists, transliteration blocks or doorway routes were created.
+
+Changed files in this refinement: `src/lib/site.js`, `src/lib/seo.js`, `src/app/page.js`, `src/app/layout.js`, `src/data/galleryData.js`, `tests/seo.http.cjs`, and this audit. The HTTP suite now checks the confirmed geography and visible server HTML in addition to existing SEO checks.
+
+## Findings before the original implementation
 
 - Next.js 16.1.6 App Router / React 19.2.3, not the originally described Next.js 14 stack.
 - Seven public pages: the homepage and six gallery categories. Gallery, pricing and contact on the homepage are sections, not separate routes.
@@ -31,7 +43,7 @@ The current Vercel domain rule conflicts with the requested non-www canonical. B
 ## Metadata and canonical strategy
 
 - `metadataBase` uses the fixed production origin rather than request headers or preview URLs.
-- Homepage title: `Tasev Ceramics | Поставување керамика, плочки и камен`.
+- Homepage title: `Tasev Ceramics | Поставување керамика и плочки во Кавадарци`.
 - Child title template: `%s | Tasev Ceramics`. The homepage uses an absolute title to avoid repeated branding.
 - Every category has a distinct service-focused Macedonian title and description, used consistently in the head and sharing metadata.
 - Each public page declares its own canonical. Queries and section fragments are excluded. The root canonical may serialize without its final slash in Next; `https://tasev-ceramics.com` and `https://tasev-ceramics.com/` are the same root URL.
@@ -69,7 +81,7 @@ The homepage server-renders a JSON-LD graph with:
 
 Category pages server-render `BreadcrumbList` matching visible links: Home → homepage Gallery section → current category. No duplicate gallery page is implied.
 
-JSON-LD is serialized with HTML delimiters escaped. No address, coordinates, review/rating, price range, opening hours or unconfirmed locality is invented. The business subtype is valid Schema.org vocabulary, but **Google's LocalBusiness rich-result eligibility requires an address**. This implementation does not fabricate one to pass that feature's validation and does not promise a rich result.
+JSON-LD is serialized with HTML delimiters escaped. Only the owner-confirmed locality and country are supplied in the partial address. No street address, postcode, coordinates, review/rating, price range, opening hours or unconfirmed locality is invented. The business subtype is valid Schema.org vocabulary, but **Google's LocalBusiness rich-result eligibility requires an address**. The locality-only address is not a complete street address; this implementation does not fabricate missing details to pass that feature's validation and does not promise a rich result.
 
 ## Visible content, images and accessibility
 
@@ -133,7 +145,7 @@ The HTTP suite checks the rendered production head for all seven pages, unique t
 Before considering the production rollout complete:
 
 1. Fix the Vercel domain direction described above, then deploy and rerun public HTTP checks. Do not add an inverse application redirect while apex → www still exists.
-2. Confirm the actual service area. Skopje or nationwide coverage has not been inferred. Add confirmed locality to visible content and structured data consistently.
+2. Locality and coverage are now confirmed: based in Kavadarci and available across North Macedonia. Keep this wording consistent with the real Google Business Profile; no branches elsewhere are claimed.
 3. Verify Search Console ownership with DNS, or set the real public token as `GOOGLE_SITE_VERIFICATION` in Vercel and rebuild. No token has been invented or installed.
 4. Submit the sitemap, inspect the homepage and representative category URLs, and request indexing where appropriate.
 5. Validate the deployed JSON-LD with Schema.org Validator and Google's Rich Results Test, observing the address limitation for LocalBusiness.

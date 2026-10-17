@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
         <ScrollReveal />
         <footer className="site-footer">
           <div className="container">
-            <div className="footer-top"><div><Link href="/#home" className="wordmark">TASEV<span>CERAMICS</span></Link><p>Професионална изработка<br />и поставување керамика.</p></div>
+            <div className="footer-top"><div><Link href="/#home" className="wordmark">TASEV<span>CERAMICS</span></Link><p>Професионална изработка<br />и поставување керамика.</p><p>{site.location.display}<br />Проекти низ Македонија</p></div>
               <div className="footer-links"><a href={`tel:${site.telephone}`}>{site.telephoneDisplay}</a><a href={`mailto:${site.email}`}>{site.email}</a></div>
               <nav aria-label="Социјални мрежи" className="footer-links"><a href={site.socials.instagram} target="_blank" rel="noopener noreferrer">Instagram <UiIcon /></a><a href={site.socials.facebook} target="_blank" rel="noopener noreferrer">Facebook <UiIcon /></a></nav>
             </div>

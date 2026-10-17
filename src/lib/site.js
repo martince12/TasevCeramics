@@ -2,8 +2,9 @@
 export const site = {
   name: "Tasev Ceramics",
   url: "https://tasev-ceramics.com",
-  title: "Tasev Ceramics | Поставување керамика, плочки и камен",
-  description: "Професионално поставување керамички плочки, гранит, мермер, травертин и украсен камен. Проекти за купатила, кујни, тераси, скали и базени.",
+  title: "Tasev Ceramics | Поставување керамика и плочки во Кавадарци",
+  description: "Професионално поставување керамички плочки, гранитогрес и камен од Tasev Ceramics, базиран во Кавадарци. Изведба на проекти во Кавадарци и низ Македонија.",
+  location: { locality: "Kavadarci", country: "North Macedonia", countryCode: "MK", display: "Кавадарци, Северна Македонија" },
   telephone: "+38971355519",
   telephoneDisplay: "+389 71 355 519",
   email: "miletasev1@gmail.com",

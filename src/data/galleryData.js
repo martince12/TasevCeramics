@@ -8,7 +8,7 @@ function rangePaths(folder, prefix, count) {
 export const categories = [
     { slug: "bathroom", coverRatio: 0.75, title: "Купатило", cover: "/gallery/bathroom/b1.jpg",
       seoTitle: "Поставување плочки во купатило",
-      description: "Погледнете изведени проекти со професионално поставување керамички плочки во купатила. Прецизна изработка со внимание кон деталите од Tasev Ceramics.",
+      description: "Професионално поставување плочки за купатила од Tasev Ceramics, Кавадарци. Погледнете изведени проекти и прецизна изработка со внимание кон деталите.",
       imageAlt: "Поставување керамички плочки во купатило",
       coverWidth: 1200,
       coverHeight: 1600,
