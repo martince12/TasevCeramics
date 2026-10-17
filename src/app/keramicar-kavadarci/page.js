@@ -16,7 +16,7 @@ export default function LocalServicePage() {
     <main id="main-content">
       <JsonLd data={localServiceSchema(localService)} />
       <section className="hero" aria-labelledby="local-title">
-        <Image src="/gallery/stairs-and-terrace/st1.jpg" alt="Изработени скали со светли плочки и осветлени газишта" fill priority sizes="100vw" className={`hero-image ${styles.heroPhoto}`} />
+        <Image src="/hero-photo2.webp" alt="Прецизно поставување на керамички плочки" fill priority sizes="100vw" className="hero-image" />
         <div className="hero-shade" />
         <div className="container hero-content">
           <p className="eyebrow">Tasev Ceramics · Керамика и камен</p>
@@ -30,24 +30,13 @@ export default function LocalServicePage() {
         <div className="container hero-bottom"><span>Прецизност во секој детал.</span><a href="#local-intro">За нашата работа <span aria-hidden="true"><UiIcon name="arrow-down" /></span></a></div>
       </section>
 
-      <section id="local-intro" className="section-pad" aria-labelledby="intro-title">
+      <section id="local-intro" className="section-pad" aria-labelledby="services-title">
         <div className="container">
-          <nav className={`breadcrumbs ${styles.introBreadcrumb}`} aria-label="Патека до страницата">
+          <nav className="breadcrumbs" aria-label="Патека до страницата">
             <ol><li><Link href="/">Почетна</Link></li><li><span aria-hidden="true">/</span><span aria-current="page">Керамичар во Кавадарци</span></li></ol>
           </nav>
-          <div className="about-grid">
-            <div data-reveal="up"><p className="eyebrow">Tasev Ceramics / Кавадарци</p><h2 id="intro-title">Прецизна изработка за секој простор</h2></div>
-            <div className={`about-copy ${styles.introCopy}`} data-reveal="up">
-              <p>Tasev Ceramics е базиран во Кавадарци и нуди лепење и поставување плочки за купатила, кујни, тераси, скали, базени и други внатрешни и надворешни површини.</p>
-              <p>Работиме со керамички плочки, гранитогрес, мермер, травертин, декоративен и природен камен, со внимание на подготовката, деталите и чистата завршница.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-pad" aria-labelledby="services-title">
-        <div className="container">
           <div className="section-heading" data-reveal="up"><div><p className="eyebrow">Услуги</p><h2 id="services-title">Лепење и поставување плочки во Кавадарци</h2></div><p>Од поединечна површина до цел простор — поставување керамика и камен според материјалот, намената и деталите на проектот.</p></div>
+          <div className="service-copy" data-reveal="up"><p>Tasev Ceramics е базиран во Кавадарци и нуди лепење и поставување плочки за купатила, кујни, тераси, скали, базени и други внатрешни и надворешни површини.</p></div>
           <div className={styles.services}>{serviceOverview.map(({ title, description, category }, index) => (
             <article key={category} className={styles.service} data-reveal="up" data-reveal-order={index % 3}>
               <h3><Link href={`/gallery/${category}`}>{title}</Link></h3><p>{description}</p>
@@ -66,6 +55,7 @@ export default function LocalServicePage() {
       <section className="section-pad" aria-labelledby="process-title">
         <div className="container">
           <p className="eyebrow" data-reveal="up">Од подлога до завршница</p><h2 id="process-title" data-reveal="up">Како работиме</h2>
+          <div className="service-copy" data-reveal="up"><p>Работиме со керамички плочки, гранитогрес, мермер, травертин, декоративен и природен камен, со внимание на подготовката, деталите и чистата завршница.</p></div>
           <ol className={styles.process}>{workProcess.map(([title, description], index) => <li key={title} data-reveal="up" data-reveal-order={index % 3}><span className="index" aria-hidden="true">0{index + 1}</span><h3>{title}</h3><p>{description}</p></li>)}</ol>
           <div className={styles.trust} data-reveal="stat">
             <div className="experience"><span>20<span className="plus">+</span></span><p>години искуство</p></div>
@@ -81,7 +71,7 @@ export default function LocalServicePage() {
             <p>Контактирајте нè за поставување керамика, плочки или камен во Кавадарци и низ Македонија.</p>
             <p>Барате мајстор за плочки во Кавадарци? Испратете локација, приближна квадратура и фотографија од просторот. Цената во калкулаторот е ориентативна; понудата ја договараме по увид.</p>
           </div>
-          <div className={styles.ctaActions} data-reveal="right">
+          <div className={styles.ctaActions} data-reveal="up">
             <Link href="/#pricing" className="button button-light">Пресметај цена <span aria-hidden="true"><UiIcon /></span></Link>
             <Link href="/#contact" className="text-link">Контакт <UiIcon /></Link>
             <a className={`text-link ${styles.phone}`} href={`tel:${site.telephone}`}>{site.telephoneDisplay}</a>

@@ -104,7 +104,7 @@ test("every public page: unique metadata, canonical, social cards, language, hea
       assert.equal(graph.find((item) => item["@type"] === "BreadcrumbList").itemListElement[1].item, canonicalOrigin + route);
       assert.match(html, /<h1[^>]*>Керамичар во Кавадарци<\/h1>/);
       const visible = html.split("<body")[1].replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "");
-      for (const heading of ["Прецизна изработка за секој простор", "Избрани изработки", "Како работиме", "Имате проект?"]) assert.ok(visible.includes(heading));
+      for (const heading of ["Лепење и поставување плочки во Кавадарци", "Избрани изработки", "Како работиме", "Имате проект?"]) assert.ok(visible.includes(heading));
       assert.match(visible, /id="selected-projects"/);
       assert.match(visible, /href="#selected-projects"/);
       assert.match(visible, /class="hero"/);

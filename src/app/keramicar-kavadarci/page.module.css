@@ -1,9 +1,5 @@
-.heroPhoto { object-position: 50% 45% !important; }
-.introBreadcrumb { margin-bottom: 48px; }
-.introCopy > p:first-child { margin-top: 0; }
-.introCopy > p { max-width: 560px; }
 .services { margin-top: 48px; display: grid; grid-template-columns: minmax(0, 1fr); column-gap: 48px; }
-.service { min-width: 0; border-top: 1px solid var(--line); padding-block: 24px; }
+.service { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; border-top: 1px solid var(--line); padding-block: 24px; }
 .service h3 { font-size: 20px; line-height: 1.4; }
 .service a { display: inline-block; padding-block: 8px; }
 .service a:hover { color: var(--accent); }
@@ -15,7 +11,6 @@
 .trust { margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px; }
 .trustStatement { font-size: clamp(1.25rem, 3vw, 1.875rem); line-height: 1.5; letter-spacing: -.025em; }
 .cta { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; align-items: end; }
-.cta h2 { font-size: clamp(2.5rem, 6vw, 5rem); }
 .ctaActions { display: flex; flex-direction: column; align-items: stretch; gap: 16px; }
 .ctaActions > a { justify-content: center; text-align: center; }
 .phone { font-size: 15px; }
@@ -27,7 +22,4 @@
 @media (min-width: 1024px) {
   .services { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 64px; }
   .process { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px; }
-  .cta { grid-template-columns: 1fr 1fr; gap: 64px; }
-  .ctaActions { justify-content: flex-end; }
-  .ctaActions .phone { flex-basis: 100%; justify-content: flex-end; }
 }
