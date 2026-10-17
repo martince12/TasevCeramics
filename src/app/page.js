@@ -8,6 +8,7 @@ import JsonLd from "@/components/JsonLd";
 import { site } from "@/lib/site";
 import { businessSchema, pageMetadata } from "@/lib/seo";
 import { localService } from "@/data/serviceContent";
+import ProjectCard from "@/components/ProjectCard";
 
 export const metadata = pageMetadata({ title: site.title, description: site.description, path: "/" });
 
@@ -51,10 +52,7 @@ export default function HomePage() {
       <section id="gallery" className="gallery-section section-pad">
         <div className="container">
           <div className="section-heading" data-reveal="up"><div><p className="eyebrow">Нашата работа</p><h2>Галерија</h2></div><p>Изработени проекти.<br />Квалитетот се гледа во деталите.</p></div>
-          <div className="project-grid">{categories.map((cat, index) => <Link key={cat.slug} href={`/gallery/${cat.slug}`} className="project-link" data-reveal="image" data-reveal-order={index % 2}>
-            <div className="project-image" style={{ "--cover-ratio": cat.coverRatio }}><Image src={cat.cover} alt={cat.imageAlt} fill sizes="(max-width: 639px) calc(100vw - 32px), (max-width: 767px) 50vw, (max-width: 1023px) 33vw, 307px" /><span className="project-open" aria-hidden="true"><UiIcon /></span></div>
-            <div className="project-caption"><div><span className="index">0{index + 1}</span><h3>{cat.title}</h3></div><span>{imagesByCategory[cat.slug].length} фотографии</span></div>
-          </Link>)}</div>
+          <div className="project-grid">{categories.map((cat, index) => <ProjectCard key={cat.slug} category={cat} index={index} photoCount={imagesByCategory[cat.slug].length} />)}</div>
           <div className="home-services">
             <h3>Поставување керамички плочки</h3>
             <p>Лепење плочки за купатила, кујни, дневни простори, тераси, скали и базени, како и поставување декоративен и природен камен. Запознајте го процесот на работа и подготовката со <Link href={localService.path} className="service-inline-link">Tasev Ceramics — керамичар во Кавадарци</Link>.</p>

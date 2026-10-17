@@ -1,63 +1,92 @@
 import Image from "next/image";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
+import ProjectCard from "@/components/ProjectCard";
 import UiIcon from "@/components/UiIcon";
 import { categories } from "@/data/galleryData";
-import { localService, serviceContent, workProcess } from "@/data/serviceContent";
+import { localService, serviceOverview, workProcess } from "@/data/serviceContent";
 import { localServiceSchema, pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
+import styles from "./page.module.css";
 
 export const metadata = pageMetadata({ ...localService, absoluteTitle: true });
 
 export default function LocalServicePage() {
   return (
-    <main id="main-content" className="category-page container local-service-page">
+    <main id="main-content">
       <JsonLd data={localServiceSchema(localService)} />
-      <nav className="breadcrumbs" aria-label="Патека до страницата">
-        <ol><li><Link href="/">Почетна</Link></li><li><span aria-hidden="true">/</span><span aria-current="page">Керамичар во Кавадарци</span></li></ol>
-      </nav>
-      <header className="service-intro">
-        <p className="eyebrow">Tasev Ceramics · Керамика и камен</p>
-        <h1>{localService.heading}</h1>
-        <p>Tasev Ceramics е базиран во Кавадарци и работи на проекти во градот и низ Македонија. Со над 20 години искуство во поставување керамика и камен, вниманието го посветуваме на подлогата, прецизните линии и уредната завршна обработка.</p>
-        <p>Ако барате мајстор за плочки за нов простор или реновирање, овде можете да ги разгледате услугите, реални примери од изработката и што е потребно за почетна проценка на вашиот проект.</p>
-        <Link href="/#contact" className="text-link">Разговарајте за вашиот проект <UiIcon /></Link>
-      </header>
-
-      <section className="service-section" aria-labelledby="services-title">
-        <div className="section-heading"><div><p className="eyebrow">Услуги и изработени проекти</p><h2 id="services-title">Лепење плочки и поставување камен</h2></div><p>Избрани фотографии од нашето портфолио. Во секоја категорија можете да ја погледнете целосната галерија.</p></div>
-        <div className="project-grid">{categories.map((category, index) => (
-          <article key={category.slug} className="service-project">
-            <Link href={`/gallery/${category.slug}`} className="project-link">
-              <div className="project-image" style={{ "--cover-ratio": category.coverRatio }}>
-                <Image src={category.cover} alt={category.imageAlt} fill priority={index === 0} sizes="(max-width: 639px) calc(100vw - 32px), (max-width: 767px) 50vw, (max-width: 1023px) 33vw, 307px" />
-                <span className="project-open" aria-hidden="true"><UiIcon /></span>
-              </div>
-              <div className="project-caption"><h3>{category.seoTitle}</h3></div>
-            </Link>
-            <p>{serviceContent[category.slug].summary}</p>
-          </article>
-        ))}</div>
+      <section className="hero" aria-labelledby="local-title">
+        <Image src="/gallery/stairs-and-terrace/st1.jpg" alt="Изработени скали со светли плочки и осветлени газишта" fill priority sizes="100vw" className={`hero-image ${styles.heroPhoto}`} />
+        <div className="hero-shade" />
+        <div className="container hero-content">
+          <p className="eyebrow">Tasev Ceramics · Керамика и камен</p>
+          <h1 id="local-title">{localService.heading}</h1>
+          <p className="hero-description">Професионално лепење и поставување керамички плочки, гранитогрес, декоративен и природен камен во Кавадарци и низ Македонија.</p>
+          <div className="hero-actions">
+            <Link href="/#contact" className="button button-light">Побарај понуда <span aria-hidden="true"><UiIcon /></span></Link>
+            <a href="#selected-projects" className="text-link">Погледни проекти <span aria-hidden="true"><UiIcon /></span></a>
+          </div>
+        </div>
+        <div className="container hero-bottom"><span>Прецизност во секој детал.</span><a href="#local-intro">За нашата работа <span aria-hidden="true"><UiIcon name="arrow-down" /></span></a></div>
       </section>
 
-      <section className="service-section" aria-labelledby="process-title">
-        <p className="eyebrow">Од подготовка до завршна обработка</p>
-        <h2 id="process-title">Како се одвива работата</h2>
-        <ol className="service-process">{workProcess.map(([title, description]) => <li key={title}><h3>{title}</h3><p>{description}</p></li>)}</ol>
+      <section id="local-intro" className="section-pad" aria-labelledby="intro-title">
+        <div className="container">
+          <nav className={`breadcrumbs ${styles.introBreadcrumb}`} aria-label="Патека до страницата">
+            <ol><li><Link href="/">Почетна</Link></li><li><span aria-hidden="true">/</span><span aria-current="page">Керамичар во Кавадарци</span></li></ol>
+          </nav>
+          <div className="about-grid">
+            <div data-reveal="up"><p className="eyebrow">Tasev Ceramics / Кавадарци</p><h2 id="intro-title">Прецизна изработка за секој простор</h2></div>
+            <div className={`about-copy ${styles.introCopy}`} data-reveal="up">
+              <p>Tasev Ceramics е базиран во Кавадарци и нуди лепење и поставување плочки за купатила, кујни, тераси, скали, базени и други внатрешни и надворешни површини.</p>
+              <p>Работиме со керамички плочки, гранитогрес, мермер, травертин, декоративен и природен камен, со внимание на подготовката, деталите и чистата завршница.</p>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <section className="service-section service-copy" aria-labelledby="quote-title">
-        <h2 id="quote-title">Што е потребно за понуда?</h2>
-        <p>Наведете ја локацијата, видот на просторот, приближната квадратура и димензиите на плочките. Кажете дали се поставува на нова или постојна подлога и дали има скали, агли или други детали што бараат дополнителна обработка. Фотографии од просторот помагаат за почетниот разговор.</p>
-        <p>Проценката зависи од материјалот, подготовката и сложеноста на изработката. Калкулаторот дава ориентативна цена, а конкретната понуда се договара по консултација и увид.</p>
-        <Link href="/#pricing" className="text-link">Пресметајте ориентативна цена <UiIcon /></Link>
+      <section className="section-pad" aria-labelledby="services-title">
+        <div className="container">
+          <div className="section-heading" data-reveal="up"><div><p className="eyebrow">Услуги</p><h2 id="services-title">Лепење и поставување плочки во Кавадарци</h2></div><p>Од поединечна површина до цел простор — поставување керамика и камен според материјалот, намената и деталите на проектот.</p></div>
+          <div className={styles.services}>{serviceOverview.map(({ title, description, category }, index) => (
+            <article key={category} className={styles.service} data-reveal="up" data-reveal-order={index % 3}>
+              <h3><Link href={`/gallery/${category}`}>{title}</Link></h3><p>{description}</p>
+            </article>
+          ))}</div>
+        </div>
       </section>
 
-      <section className="service-section service-copy" aria-labelledby="contact-title">
-        <p className="eyebrow">Кавадарци · Проекти низ Македонија</p>
-        <h2 id="contact-title">Да го испланираме вашиот простор</h2>
-        <p>За достапност и договор за проект, јавете се или испратете порака преку контакт формата. За работа надвор од Кавадарци, наведете го местото заедно со останатите детали.</p>
-        <div className="service-actions"><Link href="/#contact" className="text-link">Побарајте понуда <UiIcon /></Link><a className="text-link" href={`tel:${site.telephone}`}>{site.telephoneDisplay}</a></div>
+      <section id="selected-projects" className="gallery-section section-pad" aria-labelledby="projects-title">
+        <div className="container">
+          <div className="section-heading" data-reveal="up"><div><p className="eyebrow">Нашата работа</p><h2 id="projects-title">Избрани изработки</h2></div><p>Погледнете дел од нашите реализирани проекти во керамика, гранитогрес и камен.</p></div>
+          <div className="project-grid">{categories.map((category, index) => <ProjectCard key={category.slug} category={category} index={index} />)}</div>
+        </div>
+      </section>
+
+      <section className="section-pad" aria-labelledby="process-title">
+        <div className="container">
+          <p className="eyebrow" data-reveal="up">Од подлога до завршница</p><h2 id="process-title" data-reveal="up">Како работиме</h2>
+          <ol className={styles.process}>{workProcess.map(([title, description], index) => <li key={title} data-reveal="up" data-reveal-order={index % 3}><span className="index" aria-hidden="true">0{index + 1}</span><h3>{title}</h3><p>{description}</p></li>)}</ol>
+          <div className={styles.trust} data-reveal="stat">
+            <div className="experience"><span>20<span className="plus">+</span></span><p>години искуство</p></div>
+            <p className={styles.trustStatement}>Прецизна изработка.<br />Чисти детали.<br />Професионален пристап.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="contact-section section-pad" aria-labelledby="contact-title">
+        <div className={`container ${styles.cta}`}>
+          <div className="contact-copy" data-reveal="left">
+            <p className="eyebrow">Кавадарци · Проекти низ Македонија</p><h2 id="contact-title">Имате проект?</h2>
+            <p>Контактирајте нè за поставување керамика, плочки или камен во Кавадарци и низ Македонија.</p>
+            <p>Барате мајстор за плочки во Кавадарци? Испратете локација, приближна квадратура и фотографија од просторот. Цената во калкулаторот е ориентативна; понудата ја договараме по увид.</p>
+          </div>
+          <div className={styles.ctaActions} data-reveal="right">
+            <Link href="/#pricing" className="button button-light">Пресметај цена <span aria-hidden="true"><UiIcon /></span></Link>
+            <Link href="/#contact" className="text-link">Контакт <UiIcon /></Link>
+            <a className={`text-link ${styles.phone}`} href={`tel:${site.telephone}`}>{site.telephoneDisplay}</a>
+          </div>
+        </div>
       </section>
     </main>
   );

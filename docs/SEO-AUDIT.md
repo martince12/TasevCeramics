@@ -2,6 +2,22 @@
 
 Audit date: 7 September 2026. Preferred production origin: `https://tasev-ceramics.com`.
 
+## Local service page — visual and copy refinement
+
+The route `/keramicar-kavadarci` now uses the homepage visual language: a full-height photo hero, short editorial introduction, six linked services separated by fine rules, a six-image selected-project grid, four concise process steps, the existing 20+ years statement, and a dark final CTA. The shared root navbar/footer, hero/section/button classes and ScrollReveal behavior are reused. Navbar transparency now also applies to this route, becoming solid on scroll or when the mobile menu opens; homepage and category behavior is preserved.
+
+Hero image: `/gallery/stairs-and-terrace/st1.jpg` (existing illuminated tiled stairs). Selected images: `/gallery/bathroom/b1.jpg`, `/gallery/kitchen/k1.jpg`, `/gallery/living-room/lr1.jpg`, `/gallery/stairs-and-terrace/st1.jpg`, `/gallery/pools/p1.jpg`, `/gallery/stone/s1.jpg`. Only the hero is prioritized; the six project previews are lazy-loaded with existing responsive image sizes. No new assets, dependencies, gallery system, forms or calculator were introduced.
+
+`ProjectCard` was extracted from the homepage and reused by both pages. A static-markup comparison against the previous homepage confirmed identical presentation markup, with unchanged interactive components stubbed. Existing global CSS and the root footer were not modified. New page-specific styles live in a CSS module.
+
+Current H1: “Керамичар во Кавадарци”. Title remains “Керамичар Кавадарци | Лепење и поставување плочки – Tasev Ceramics”. Description now reads: “Лепење плочки во Кавадарци и низ Македонија од Tasev Ceramics. Поставување плочки, гранитогрес и камен за купатила, кујни, тераси, скали и базени.” Natural Macedonian uses “во Кавадарци” rather than awkward repetitions of bare search-query strings. Canonical, index/follow, sitemap membership, Service provider identity/areaServed, BreadcrumbList and all category/estimator/contact destinations are preserved. Visible copy remains server-rendered; the new H1 is also the Service name.
+
+Validation: lint and production build passed, all 10 component tests passed, and all 4 production HTTP SEO tests passed across eight routes. The new navbar regression covers the homepage, service page and a gallery page, including overlay/solid states, scroll, opening the mobile menu and Escape. HTTP checks cover the updated H1/description, exact title/canonical, schemas, local anchors, six gallery destinations and no duplicated forms.
+
+Mobile layout uses the existing content-growing 100dvh hero, full-width centered hero buttons, one-column base layout, wrapping text, and two/three-column service layouts at larger widths. Actual browser checks at 320, 375, 390, 430, 768 and 1440px remain pending: the required browser execution tool is not exposed in this session. No pixel-level, viewport-overflow or screenshot verification is claimed. No deployment was performed.
+
+Files changed: `src/app/keramicar-kavadarci/page.js`, `src/app/keramicar-kavadarci/page.module.css` (new), `src/components/ProjectCard.js` (new), `src/app/page.js`, `src/components/Navbar.js`, `src/data/serviceContent.js`, `tests/redesign.test.cjs`, `tests/seo.http.cjs`, and this audit.
+
 ## Organic + local service expansion
 
 The site now has eight indexable public pages. The single new service URL is `https://tasev-ceramics.com/keramicar-kavadarci`. It uses the requested title “Керамичар Кавадарци | Лепење и поставување плочки – Tasev Ceramics”, description “Tasev Ceramics нуди професионално лепење и поставување керамички плочки во Кавадарци и низ Македонија. Купатила, кујни, тераси, скали, базени и камен.” and H1 “Керамичар во Кавадарци – професионално поставување плочки”. The title is absolute to avoid adding the brand twice through the existing layout template; Open Graph and Twitter match it.

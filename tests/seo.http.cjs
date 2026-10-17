@@ -61,7 +61,7 @@ test("every public page: unique metadata, canonical, social cards, language, hea
       assert.equal((await fetch(origin + image.pathname)).status, 200, value(name));
     }
     const images = tags(html, "img");
-    assert.equal(images.length, index === 0 ? 7 : route === "/keramicar-kavadarci" ? 6 : counts[index - 1], route);
+    assert.equal(images.length, index === 0 ? 7 : route === "/keramicar-kavadarci" ? 7 : counts[index - 1], route);
     for (const image of images) {
       assert.ok(image.alt.length > 15, image.alt);
       assert.ok(image.sizes, route);
@@ -94,7 +94,7 @@ test("every public page: unique metadata, canonical, social cards, language, hea
       for (const categoryRoute of routes.slice(1)) assert.ok(tags(html, "a").some((item) => item.href === categoryRoute));
     } else if (route === "/keramicar-kavadarci") {
       assert.equal(title, "Керамичар Кавадарци | Лепење и поставување плочки – Tasev Ceramics");
-      assert.equal(description, "Tasev Ceramics нуди професионално лепење и поставување керамички плочки во Кавадарци и низ Македонија. Купатила, кујни, тераси, скали, базени и камен.");
+      assert.equal(description, "Лепење плочки во Кавадарци и низ Македонија од Tasev Ceramics. Поставување плочки, гранитогрес и камен за купатила, кујни, тераси, скали и базени.");
       const graph = jsonLd(html).flatMap((item) => item["@graph"] || []);
       const service = graph.find((item) => item["@type"] === "Service");
       assert.equal(service.provider["@id"], canonicalOrigin + "/#business");
@@ -102,9 +102,16 @@ test("every public page: unique metadata, canonical, social cards, language, hea
       assert.deepEqual(service.areaServed.map((item) => item.name), ["Kavadarci", "North Macedonia"]);
       assert.ok(!graph.some((item) => item["@type"] === "HomeAndConstructionBusiness"), "reference the existing business rather than invent another");
       assert.equal(graph.find((item) => item["@type"] === "BreadcrumbList").itemListElement[1].item, canonicalOrigin + route);
-      assert.match(html, /<h1>Керамичар во Кавадарци – професионално поставување плочки<\/h1>/);
+      assert.match(html, /<h1[^>]*>Керамичар во Кавадарци<\/h1>/);
       const visible = html.split("<body")[1].replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "");
-      for (const heading of ["Како се одвива работата", "Што е потребно за понуда?", "Да го испланираме вашиот простор"]) assert.ok(visible.includes(heading));
+      for (const heading of ["Прецизна изработка за секој простор", "Избрани изработки", "Како работиме", "Имате проект?"]) assert.ok(visible.includes(heading));
+      assert.match(visible, /id="selected-projects"/);
+      assert.match(visible, /href="#selected-projects"/);
+      assert.match(visible, /class="hero"/);
+      assert.equal(tags(visible, "form").length, 0, "reuse homepage calculator and contact form through links");
+      for (const link of tags(visible, "a").filter((item) => item.href?.startsWith("#"))) {
+        assert.ok(visible.includes(`id="${link.href.slice(1)}"`), "local anchor exists");
+      }
       const links = tags(visible, "a");
       for (const destination of [...routes.filter((item) => item.startsWith("/gallery/")), "/#pricing", "/#contact", "tel:+38971355519"]) assert.ok(links.some((link) => link.href === destination), destination);
     } else {

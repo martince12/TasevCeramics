@@ -378,3 +378,24 @@ test('JSON-LD serialization preserves data while escaping HTML script delimiters
   assert.equal(serialized.includes('<'), false);
   assert.deepEqual(JSON.parse(serialized), data);
 });
+
+
+test('local service navigation: hero overlay, scrolling and mobile menu preserve other routes', async () => {
+  for (const route of ['/', '/keramicar-kavadarci', '/gallery/bathroom']) {
+    const view = await component('src/components/Navbar.js', {}, { mockPathname: route });
+    const header = () => view.all().find((node) => node.type === 'header');
+    const toggle = () => view.all().find((node) => node.props.className === 'menu-toggle');
+    assert.equal(header().props.className.includes('is-solid'), route.startsWith('/gallery/'));
+    view.click(toggle());
+    assert.match(header().props.className, /is-solid/);
+    assert.equal(view.document.body.style.overflow, 'hidden');
+    view.key('Escape');
+    assert.equal(view.document.body.style.overflow, '');
+    view.window.scrollY = 100;
+    view.event('scroll');
+    assert.match(header().props.className, /is-solid/);
+    view.window.scrollY = 0;
+    view.event('scroll');
+    assert.equal(header().props.className.includes('is-solid'), route.startsWith('/gallery/'));
+  }
+});
