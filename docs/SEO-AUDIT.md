@@ -2,6 +2,31 @@
 
 Audit date: 7 September 2026. Preferred production origin: `https://tasev-ceramics.com`.
 
+## Organic + local service expansion
+
+The site now has eight indexable public pages. The single new service URL is `https://tasev-ceramics.com/keramicar-kavadarci`. It uses the requested title “Керамичар Кавадарци | Лепење и поставување плочки – Tasev Ceramics”, description “Tasev Ceramics нуди професионално лепење и поставување керамички плочки во Кавадарци и низ Македонија. Купатила, кујни, тераси, скали, базени и камен.” and H1 “Керамичар во Кавадарци – професионално поставување плочки”. The title is absolute to avoid adding the brand twice through the existing layout template; Open Graph and Twitter match it.
+
+The server-rendered page provides an introduction, six service/portfolio entries with real existing cover images, four work-process steps, quote preparation guidance, and estimator/contact/telephone links. Photos are not attributed to a particular city without evidence. Category pages retain every gallery image and the same lightbox component, followed by two distinct service paragraphs and contextual links to the new page and estimator. The homepage gallery now ends with a minimal text-and-links service overview; the existing grid, hero, animations, calculator and form remain intact.
+
+The new page emits Service and BreadcrumbList JSON-LD. Its provider references the existing `https://tasev-ceramics.com/#business` entity; it does not declare a competing business. Service area uses the same Kavadarci and North Macedonia facts as the homepage. No reviews, ratings, street addresses, coordinates or other branches were added. Service properties were checked against [Schema.org Service](https://schema.org/Service).
+
+The sitemap contains the homepage, this service page and the six gallery categories. No separate `/lepenje-plocki-kavadarci`, `/postavuvanje-plocki-kavadarci` or `/majstor-za-plocki-kavadarci` routes exist. No transliteration keyword blocks or meta-keyword lists were added.
+
+Files changed for this expansion:
+- `src/app/keramicar-kavadarci/page.js` — new server-rendered service page.
+- `src/data/serviceContent.js` — focused local metadata, category content and process copy.
+- `src/app/gallery/[category]/page.js` — useful category text and contextual links after the unchanged gallery.
+- `src/app/page.js` — homepage services overview and internal links.
+- `src/app/globals.css` — scoped spacing, text, wrapping links and service layout styles using the existing design tokens and grid breakpoints.
+- `src/lib/seo.js` — absolute-title option and Service/BreadcrumbList graph.
+- `src/app/sitemap.js` — new canonical URL.
+- `tests/seo.http.cjs` — eight-page metadata/canonical/schema/link coverage, visible service content, and excluded duplicate routes.
+- `docs/SEO-AUDIT.md` and `README.md` — updated documentation.
+
+Validation: `npm run lint` and `npm run build` passed; all nine component regression tests and all four production HTTP SEO tests passed. HTTP checks cover all eight pages, exact local-page title/description, canonical/social metadata, service provider identity and geography, breadcrumbs, internal links, visible category copy, sitemap membership and 404 responses for the excluded duplicate routes.
+
+Responsive implementation reuses the existing one/two/three-column project grid, fluid headings, bounded content widths and wrapping links. Browser verification is pending: the Browser skill is available, but this session does not expose its required JavaScript execution tool. Source review and automated HTTP/component tests do not replace visual checks at phone, tablet and desktop sizes. No production deployment was performed.
+
 ## Local SEO refinement — 17 October 2026
 
 The owner confirmed Kavadarci, North Macedonia as the base and availability for projects across North Macedonia. The current About paragraph says: “Tasev Ceramics е базиран во Кавадарци и нуди професионално поставување керамички плочки, гранитогрес, декоративен и природен камен за проекти во Кавадарци и низ Македонија.” Existing experience, materials and project categories remain in the following sentence.
@@ -65,6 +90,7 @@ The current Vercel domain rule conflicts with the requested non-www canonical. B
 5. https://tasev-ceramics.com/gallery/stairs-and-terrace
 6. https://tasev-ceramics.com/gallery/pools
 7. https://tasev-ceramics.com/gallery/stone
+8. https://tasev-ceramics.com/keramicar-kavadarci
 
 The gallery landing section is covered by the homepage entry; a nonexistent `/gallery` route is not invented. API, error, modal, query and fragment URLs are excluded. Change frequency is monthly; priorities are 1 for home and 0.8 for categories. These are hints, not promises about crawler behavior or ranking.
 
@@ -140,7 +166,7 @@ npm run start -- --port 3100
 node --test tests/seo.http.cjs
 ```
 
-The HTTP suite checks the rendered production head for all seven pages, unique titles/descriptions, self-canonicals, OG/Twitter images, one H1/main, Macedonian language, meaningful alternatives, lazy loading, JSON-LD, breadcrumbs, sitemap contents, robots rules, icons/fonts, image optimization, canonical trailing-slash redirects, real 404/noindex behavior and invalid contact validation. It does not send email. Existing calculator, gallery/lightbox, contact and section-navigation checks remain in the component suite.
+The HTTP suite checks the rendered production head for all eight pages, unique titles/descriptions, self-canonicals, OG/Twitter images, one H1/main, Macedonian language, meaningful alternatives, lazy loading, JSON-LD, breadcrumbs, sitemap contents, robots rules, icons/fonts, image optimization, canonical trailing-slash redirects, real 404/noindex behavior and invalid contact validation. It does not send email. Existing calculator, gallery/lightbox, contact and section-navigation checks remain in the component suite.
 
 Before considering the production rollout complete:
 

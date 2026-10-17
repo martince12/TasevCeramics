@@ -4,7 +4,7 @@ const assert = require("node:assert/strict");
 const { test } = require("node:test");
 const origin = process.env.SEO_TEST_ORIGIN || "http://localhost:3100";
 const canonicalOrigin = "https://tasev-ceramics.com";
-const routes = ["/", "/gallery/bathroom", "/gallery/kitchen", "/gallery/living-room", "/gallery/stairs-and-terrace", "/gallery/pools", "/gallery/stone"];
+const routes = ["/", "/gallery/bathroom", "/gallery/kitchen", "/gallery/living-room", "/gallery/stairs-and-terrace", "/gallery/pools", "/gallery/stone", "/keramicar-kavadarci"];
 const counts = [48, 25, 26, 72, 15, 19];
 
 function decode(value) {
@@ -61,7 +61,7 @@ test("every public page: unique metadata, canonical, social cards, language, hea
       assert.equal((await fetch(origin + image.pathname)).status, 200, value(name));
     }
     const images = tags(html, "img");
-    assert.equal(images.length, index === 0 ? 7 : counts[index - 1], route);
+    assert.equal(images.length, index === 0 ? 7 : route === "/keramicar-kavadarci" ? 6 : counts[index - 1], route);
     for (const image of images) {
       assert.ok(image.alt.length > 15, image.alt);
       assert.ok(image.sizes, route);
@@ -92,7 +92,27 @@ test("every public page: unique metadata, canonical, social cards, language, hea
       assert.ok(graph.some((item) => item["@type"] === "WebSite" && item.inLanguage === "mk"));
       assert.doesNotMatch(JSON.stringify(graph), /SearchAction/);
       for (const categoryRoute of routes.slice(1)) assert.ok(tags(html, "a").some((item) => item.href === categoryRoute));
+    } else if (route === "/keramicar-kavadarci") {
+      assert.equal(title, "Керамичар Кавадарци | Лепење и поставување плочки – Tasev Ceramics");
+      assert.equal(description, "Tasev Ceramics нуди професионално лепење и поставување керамички плочки во Кавадарци и низ Македонија. Купатила, кујни, тераси, скали, базени и камен.");
+      const graph = jsonLd(html).flatMap((item) => item["@graph"] || []);
+      const service = graph.find((item) => item["@type"] === "Service");
+      assert.equal(service.provider["@id"], canonicalOrigin + "/#business");
+      assert.equal(service.url, canonicalOrigin + route);
+      assert.deepEqual(service.areaServed.map((item) => item.name), ["Kavadarci", "North Macedonia"]);
+      assert.ok(!graph.some((item) => item["@type"] === "HomeAndConstructionBusiness"), "reference the existing business rather than invent another");
+      assert.equal(graph.find((item) => item["@type"] === "BreadcrumbList").itemListElement[1].item, canonicalOrigin + route);
+      assert.match(html, /<h1>Керамичар во Кавадарци – професионално поставување плочки<\/h1>/);
+      const visible = html.split("<body")[1].replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "");
+      for (const heading of ["Како се одвива работата", "Што е потребно за понуда?", "Да го испланираме вашиот простор"]) assert.ok(visible.includes(heading));
+      const links = tags(visible, "a");
+      for (const destination of [...routes.filter((item) => item.startsWith("/gallery/")), "/#pricing", "/#contact", "tel:+38971355519"]) assert.ok(links.some((link) => link.href === destination), destination);
     } else {
+      const visible = html.split("<body")[1].replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "");
+      assert.match(visible, /aria-labelledby="category-service-title"/);
+      const copy = visible.match(/<section class="service-section service-copy"[^>]*>([\s\S]*?)<\/section>/)?.[1];
+      assert.ok(copy && [...copy.matchAll(/<p>/g)].length >= 3, "useful server-rendered category content");
+      for (const destination of ["/keramicar-kavadarci", "/#pricing", "/#contact"]) assert.ok(tags(visible, "a").some((link) => link.href === destination));
       const breadcrumb = jsonLd(html).find((item) => item["@type"] === "BreadcrumbList");
       assert.equal(breadcrumb.itemListElement.length, 3);
       assert.equal(breadcrumb.itemListElement[2].item, canonicalOrigin + route);
@@ -104,13 +124,13 @@ test("every public page: unique metadata, canonical, social cards, language, hea
   assert.equal(descriptions.size, routes.length);
 });
 
-test("sitemap contains exactly the seven real canonical pages; robots permits public assets", async () => {
+test("sitemap contains exactly the eight real canonical pages; robots permits public assets", async () => {
   const response = await fetch(origin + "/sitemap.xml");
   assert.equal(response.status, 200);
   const xml = await response.text();
   const urls = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
   assert.deepEqual(urls.sort(), routes.map((route) => canonicalOrigin + route).sort());
-  assert.equal(new Set(urls).size, 7);
+  assert.equal(new Set(urls).size, 8);
   assert.doesNotMatch(xml, /<lastmod>/, "do not invent content modification dates");
   for (const url of urls) assert.equal((await fetch(origin + new URL(url).pathname)).status, 200, url);
   const robots = await fetch(origin + "/robots.txt");
@@ -123,7 +143,7 @@ test("sitemap contains exactly the seven real canonical pages; robots permits pu
 });
 
 test("invalid URLs return unindexable 404s and API responses are not indexable", async () => {
-  for (const route of ["/missing-page", "/gallery/unknown", "/gallery/__proto__", "/gallery"]) {
+  for (const route of ["/missing-page", "/gallery/unknown", "/gallery/__proto__", "/gallery", "/lepenje-plocki-kavadarci", "/postavuvanje-plocki-kavadarci", "/majstor-za-plocki-kavadarci"]) {
     const response = await fetch(origin + route);
     assert.equal(response.status, 404, route);
     const html = await response.text();

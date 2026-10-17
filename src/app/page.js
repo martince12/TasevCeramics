@@ -7,6 +7,7 @@ import ContactForm from "@/components/ContactForm";
 import JsonLd from "@/components/JsonLd";
 import { site } from "@/lib/site";
 import { businessSchema, pageMetadata } from "@/lib/seo";
+import { localService } from "@/data/serviceContent";
 
 export const metadata = pageMetadata({ title: site.title, description: site.description, path: "/" });
 
@@ -54,6 +55,11 @@ export default function HomePage() {
             <div className="project-image" style={{ "--cover-ratio": cat.coverRatio }}><Image src={cat.cover} alt={cat.imageAlt} fill sizes="(max-width: 639px) calc(100vw - 32px), (max-width: 767px) 50vw, (max-width: 1023px) 33vw, 307px" /><span className="project-open" aria-hidden="true"><UiIcon /></span></div>
             <div className="project-caption"><div><span className="index">0{index + 1}</span><h3>{cat.title}</h3></div><span>{imagesByCategory[cat.slug].length} фотографии</span></div>
           </Link>)}</div>
+          <div className="home-services">
+            <h3>Поставување керамички плочки</h3>
+            <p>Лепење плочки за купатила, кујни, дневни простори, тераси, скали и базени, како и поставување декоративен и природен камен. Запознајте го процесот на работа и подготовката со <Link href={localService.path} className="service-inline-link">Tasev Ceramics — керамичар во Кавадарци</Link>.</p>
+            <nav className="service-links" aria-label="Услуги">{categories.map((category) => <Link key={category.slug} className="service-inline-link" href={`/gallery/${category.slug}`}>{category.seoTitle}</Link>)}</nav>
+          </div>
         </div>
       </section>
       <section id="pricing" className="section-pad pricing-section">

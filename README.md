@@ -83,3 +83,5 @@ For browser review, check the homepage and all six gallery categories at 320, 37
 
 ---
 
+
+The local service page is `/keramicar-kavadarci`, linked from the homepage and all six gallery categories. Its content and category service copy live in `src/data/serviceContent.js`. The sitemap now includes eight public pages. Include the new service page in mobile/desktop browser reviews and run `node --test tests/seo.http.cjs` against the production server on port 3100.
